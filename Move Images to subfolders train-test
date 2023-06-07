@@ -1,0 +1,43 @@
+import os
+import shutil
+import random
+
+# Set the paths to the original folders and the new train/test directories
+original_bike_dir = r'C:\Users\thami\Desktop\archive\Car-Bike-Dataset\Bike'
+original_cars_dir = r'C:\Users\thami\Desktop\archive\Car-Bike-Dataset\Car'
+train_dir = r'C:\Users\thami\Desktop\archive\Train'
+test_dir = r'C:\Users\thami\Desktop\archive\Test'
+
+# Create the train and test directories if they don't exist
+os.makedirs(train_dir, exist_ok=True)
+os.makedirs(test_dir, exist_ok=True)
+
+# Create the train subdirectories for cars and bikes
+train_cars_dir = os.path.join(train_dir, r'C:\Users\thami\Desktop\archive\Train\cars')
+train_bikes_dir = os.path.join(train_dir, r'C:\Users\thami\Desktop\archive\Train\bikes')
+os.makedirs(train_cars_dir, exist_ok=True)
+os.makedirs(train_bikes_dir, exist_ok=True)
+
+# Create the test subdirectories for cars and bikes
+test_cars_dir = os.path.join(test_dir, r'C:\Users\thami\Desktop\archive\Test\cars')
+test_bikes_dir = os.path.join(test_dir, r'C:\Users\thami\Desktop\archive\Test\bikes')
+os.makedirs(test_cars_dir, exist_ok=True)
+os.makedirs(test_bikes_dir, exist_ok=True)
+
+# Function to move a specified number of random files from src to dst directory
+def move_random_files(src, dst, count):
+    files = os.listdir(src)
+    random.shuffle(files)
+    for i in range(count):
+        file_name = files[i]
+        src_file = os.path.join(src, file_name)
+        dst_file = os.path.join(dst, file_name)
+        shutil.copy(src_file, dst_file)
+
+# Move the car images to the train and test cars subdirectories
+move_random_files(original_cars_dir, train_cars_dir, 1750)
+move_random_files(original_cars_dir, test_cars_dir, 250)
+
+# Move the bike images to the train and test bikes subdirectories
+move_random_files(original_bike_dir, train_bikes_dir, 1750)
+move_random_files(original_bike_dir, test_bikes_dir, 250)
