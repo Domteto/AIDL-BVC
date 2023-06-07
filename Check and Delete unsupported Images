@@ -1,0 +1,21 @@
+from pathlib import Path
+import imghdr
+import os
+
+data_dir = r"C:\Users\Eso\Documents\TTKN AIDL A1\CarvsBike\Test"
+image_extensions = [".png", ".jpg"]  # add all your image file extensions here
+
+img_type_accepted_by_tf = ["bmp", "gif", "jpeg", "png"]
+
+def delete_unsupported_images(directory):
+    for filepath in Path(directory).rglob("*"):
+        if filepath.suffix.lower() in image_extensions:
+            img_type = imghdr.what(filepath)
+            if img_type is None:
+                print(f"{filepath} is not an image")
+                os.remove(filepath)  # Delete unsupported image
+            elif img_type not in img_type_accepted_by_tf:
+                print(f"{filepath} is a {img_type}, not accepted by TensorFlow")
+                os.remove(filepath)  # Delete unsupported image
+
+delete_unsupported_images(data_dir)
